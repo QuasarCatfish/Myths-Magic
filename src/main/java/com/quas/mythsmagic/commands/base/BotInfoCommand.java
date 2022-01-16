@@ -5,6 +5,7 @@ import java.util.StringJoiner;
 import com.quas.mythsmagic.MythsMagicBot;
 import com.quas.mythsmagic.commands.Command;
 import com.quas.mythsmagic.commands.CommandInfo;
+import com.quas.mythsmagic.util.Constants;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
@@ -15,9 +16,10 @@ public class BotInfoCommand extends Command {
 	@Override
 	public void handle(SlashCommandEvent event) {
 		EmbedBuilder eb = new EmbedBuilder();
-		eb.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
+		eb.setColor(Constants.COLOR);
 		
 		eb.setTitle(MythsMagicBot.getProperties().getBotInfo().getTitle());
+		eb.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl());
 		eb.setDescription(MythsMagicBot.getProperties().getBotInfo().getDescription());
 		
 		eb.addField("Author", MythsMagicBot.getProperties().getBotInfo().getAuthor(), true);
