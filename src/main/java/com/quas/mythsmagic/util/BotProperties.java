@@ -48,6 +48,11 @@ public class BotProperties {
 			return url;
 		}
 		
+		private String schema = "mythsmagic";
+		public String getSchema() {
+			return schema;
+		}
+		
 		private String username = "username";
 		public String getUsername() {
 			return username;
