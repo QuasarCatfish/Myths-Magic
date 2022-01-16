@@ -10,12 +10,11 @@ import com.quas.mythsmagic.util.Constants;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 
-public class UpdateGuildCommands {
+public class UpdateGlobalCommands {
 	
 	public static void main(String[] args) {
 		
 		try (FileReader in = new FileReader(Constants.FILE_PROPERTIES)) {
-			
 			// Read in properties
 			BotProperties prop = new Gson().fromJson(in, BotProperties.class);
 			
