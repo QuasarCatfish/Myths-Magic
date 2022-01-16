@@ -33,7 +33,7 @@ public class MythsMagicBot {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			BotProperties.createDefault();
+			new BotProperties().save();
 			System.exit(0);
 		}
 	}

@@ -1,6 +1,5 @@
 package com.quas.mythsmagic.util;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -33,16 +32,41 @@ public class BotProperties {
 		return password;
 	}
 	
-	// Create properties file if it does not exist
-	public static void createDefault() {
-		File f = new File(Constants.FILE_PROPERTIES);
-		if (!f.exists()) {
-			try (FileWriter out = new FileWriter(Constants.FILE_PROPERTIES)) {
-				Gson gson = new GsonBuilder().setPrettyPrinting().create();
-				out.write(gson.toJson(new BotProperties(), BotProperties.class));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	private BotInfo botInfo = new BotInfo();
+	public BotInfo getBotInfo() {
+		return botInfo;
+	}
+	
+	// Save properties file
+	public void save() {
+		try (FileWriter out = new FileWriter(Constants.FILE_PROPERTIES)) {
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			out.write(gson.toJson(this, BotProperties.class));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static class BotInfo {
+		
+		private String title = "Myths & Magic";
+		public String getTitle() {
+			return title;
+		}
+		
+		private String description = "";
+		public String getDescription() {
+			return description;
+		}
+		
+		private String author = "Quas";
+		public String getAuthor() {
+			return author;
+		}
+		
+		private String[] links = new String[0];
+		public String[] getLinks() {
+			return links;
 		}
 	}
 }
