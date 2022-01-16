@@ -20,16 +20,9 @@ public class BotProperties {
 		return version;
 	}
 	
-	// Databse username
-	private String username = "username";
-	public String getUsername() {
-		return username;
-	}
-	
-	// Database password
-	private String password = "password";
-	public String getPassword() {
-		return password;
+	private DatabaseInfo databaseInfo = new DatabaseInfo();
+	public DatabaseInfo getDatabaseInfo() {
+		return databaseInfo;
 	}
 	
 	private BotInfo botInfo = new BotInfo();
@@ -44,6 +37,25 @@ public class BotProperties {
 			out.write(gson.toJson(this, BotProperties.class));
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	// Database information
+	public static class DatabaseInfo {
+		
+		private String url = "localhost:3306";
+		public String getUrl() {
+			return url;
+		}
+		
+		private String username = "username";
+		public String getUsername() {
+			return username;
+		}
+		
+		private String password = "password";
+		public String getPassword() {
+			return password;
 		}
 	}
 	
