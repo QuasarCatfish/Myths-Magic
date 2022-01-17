@@ -1,4 +1,4 @@
-package com.quas.mythsmagic.commands.info;
+package com.quas.mythsmagic.commands.player;
 
 import com.quas.mythsmagic.commands.Command;
 import com.quas.mythsmagic.commands.CommandInfo;
@@ -13,8 +13,7 @@ public class ProfileCommand extends Command {
 
 	@Override
 	public void handle(SlashCommandEvent event) {
-		Player player = Player.of(event.getUser().getIdLong());
-		if (player == null) player = Player.create(event.getUser().getIdLong(), event.getUser().getName());
+		Player player = Player.of(event.getUser());
 		
 		EmbedBuilder eb = new EmbedBuilder();
 		eb.setColor(Constants.COLOR);
@@ -22,7 +21,7 @@ public class ProfileCommand extends Command {
 		eb.setTitle(player.getName() + "'s Profile");
 		eb.setThumbnail(event.getUser().getEffectiveAvatarUrl());
 		
-		eb.addField("Money", String.format("%,d", player.getMoney()), true);
+		eb.addField("Balance", String.format("%,d Jewels", player.getMoney()), true);
 		
 		event.reply(event.getUser().getAsMention()).addEmbeds(eb.build()).setEphemeral(isEphemeral(event)).queue();
 	}
