@@ -22,7 +22,7 @@ public class BonusCommand extends Command {
 		if (player.getLastBonus() + Constants.BONUS_WAIT_TIME <= System.currentTimeMillis()) {
 			int bonus = Rand.nextElement(Constants.BONUS_AMOUNTS);
 			event.replyFormat("%s, you earned %,d Jewels from your bonus!", event.getUser().getAsMention(), bonus).setEphemeral(isEphemeral(event)).queue();
-			DB.update("update `players` set `money` = `money` + ?, `lastBonus` = ? where `playerId` = ?;", bonus, System.currentTimeMillis(), player.getIdLong());
+			DB.update("update `players` set `money` = `money` + ?, `lastBonus` = ? where `playerId` = ?;", bonus, System.currentTimeMillis(), player.getPlayerId());
 		} else {
 			long time = player.getLastBonus() + Constants.BONUS_WAIT_TIME - System.currentTimeMillis();
 			StringJoiner sj = new StringJoiner(" and ");

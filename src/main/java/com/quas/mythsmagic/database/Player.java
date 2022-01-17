@@ -19,17 +19,15 @@ public class Player {
 		// If player has updated their name
 		if (!user.getName().equals(p.getName())) {
 			p.name = user.getName();
-			DB.update("update `players` set `playerName` = ? where `playerId` = ?;", user.getName(), p.getId());
+			DB.update("update `players` set `playerName` = ? where `playerId` = ?;", user.getName(), p.getPlayerId());
 		}
 		
 		return p;
 	}
 	
-	public static Player of(long id) {
-		try (ResultSet res = DB.query("select * from `players` where `playerId` = ?;", id)) {
-			if (res.next()) {
-				return new Player(res);
-			}
+	public static Player of(long playerId) {
+		try (ResultSet res = DB.query("select * from `players` where `playerId` = ?;", playerId)) {
+			if (res.next()) return new Player(res);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -39,24 +37,20 @@ public class Player {
 	
 	//////////////////////////////////////////////
 	
-	private long id;
+	private long playerId;
 	private String name;
 	private long money;
 	private long lastBonus;
 	
 	private Player(ResultSet res) throws SQLException {
-		id = res.getLong("players.playerId");
+		playerId = res.getLong("players.playerId");
 		name = res.getString("players.playerName");
 		money = res.getLong("players.money");
 		lastBonus = res.getLong("players.lastBonus");
 	}
 	
-	public String getId() {
-		return Long.toString(id);
-	}
-	
-	public long getIdLong() {
-		return id;
+	public long getPlayerId() {
+		return playerId;
 	}
 	
 	public String getName() {

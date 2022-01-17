@@ -1,8 +1,12 @@
 package com.quas.mythsmagic.commands.player;
 
+import java.util.StringJoiner;
+
 import com.quas.mythsmagic.commands.Command;
 import com.quas.mythsmagic.commands.CommandInfo;
 import com.quas.mythsmagic.database.Player;
+import com.quas.mythsmagic.database.PlayerPack;
+import com.quas.mythsmagic.database.PlayerStarterDeck;
 import com.quas.mythsmagic.util.Constants;
 
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -21,7 +25,19 @@ public class ProfileCommand extends Command {
 		eb.setTitle(player.getName() + "'s Profile");
 		eb.setThumbnail(event.getUser().getEffectiveAvatarUrl());
 		
-		eb.addField("Balance", String.format("%,d Jewels", player.getMoney()), true);
+		StringJoiner sjDesc = new StringJoiner("\n");
+		sjDesc.add(String.format("**Balance:** %,d Jewels", player.getMoney()));
+		eb.setDescription(sjDesc.toString());
+		
+		StringJoiner sjPacks = new StringJoiner("\n");
+		sjPacks.setEmptyValue("You don't own any Booster Packs.");
+		for (PlayerPack pack : PlayerPack.of(player.getPlayerId())) sjPacks.add(String.format("%,dx %s", pack.getQuantity(), pack.getPack().getName()));
+		eb.addField("Booster Packs", sjPacks.toString(), true);
+		
+		StringJoiner sjStarterDecks = new StringJoiner("\n");
+		sjStarterDecks.setEmptyValue("You don't own any Starter Decks.");
+		for (PlayerStarterDeck deck : PlayerStarterDeck.of(player.getPlayerId())) sjStarterDecks.add(String.format("%,dx %s", deck.getQuantity(), deck.getStarterDeck().getName()));
+		eb.addField("Starter Decks", sjStarterDecks.toString(), true);
 		
 		event.reply(event.getUser().getAsMention()).addEmbeds(eb.build()).setEphemeral(isEphemeral(event)).queue();
 	}
