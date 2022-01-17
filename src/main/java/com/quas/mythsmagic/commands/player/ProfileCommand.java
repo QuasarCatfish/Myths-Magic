@@ -27,6 +27,7 @@ public class ProfileCommand extends Command {
 		
 		StringJoiner sjDesc = new StringJoiner("\n");
 		sjDesc.add(String.format("**Balance:** %,d Jewels", player.getMoney()));
+		if (player.getStarterBundleTickets() > 0) sjDesc.add(String.format("**Starter Bundle Tickets:** %,d Ticket%s", player.getStarterBundleTickets(), player.getStarterBundleTickets() > 1 ? "s" : ""));
 		eb.setDescription(sjDesc.toString());
 		
 		StringJoiner sjPacks = new StringJoiner("\n");

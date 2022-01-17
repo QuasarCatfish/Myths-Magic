@@ -39,14 +39,16 @@ public class Player {
 	
 	private long playerId;
 	private String name;
-	private long money;
 	private long lastBonus;
+	private long money;
+	private int starterBundleTickets;
 	
 	private Player(ResultSet res) throws SQLException {
 		playerId = res.getLong("players.playerId");
 		name = res.getString("players.playerName");
-		money = res.getLong("players.money");
 		lastBonus = res.getLong("players.lastBonus");
+		money = res.getLong("players.money");
+		starterBundleTickets = res.getInt("players.starterBundleTickets");
 	}
 	
 	public long getPlayerId() {
@@ -57,11 +59,15 @@ public class Player {
 		return name;
 	}
 	
+	public long getLastBonus() {
+		return lastBonus;
+	}
+	
 	public long getMoney() {
 		return money;
 	}
 	
-	public long getLastBonus() {
-		return lastBonus;
+	public int getStarterBundleTickets() {
+		return starterBundleTickets;
 	}
 }
