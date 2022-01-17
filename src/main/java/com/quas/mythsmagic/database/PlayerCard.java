@@ -17,14 +17,14 @@ public class PlayerCard {
 	}
 	
 	public static PlayerCard[] of(long playerId) {
-		ArrayList<PlayerCard> packs = new ArrayList<>();
+		ArrayList<PlayerCard> cards = new ArrayList<>();
 		try (ResultSet res = DB.query("select * from `playercards` where `playerId` = ? and `quantity` > 0;", playerId)) {
-			while (res.next()) packs.add(new PlayerCard(res));
+			while (res.next()) cards.add(new PlayerCard(res));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return packs.toArray(new PlayerCard[0]);
+		return cards.toArray(new PlayerCard[0]);
 	}
 	
 	//////////////////////////////////////////////
@@ -54,7 +54,7 @@ public class PlayerCard {
 		return cardId;
 	}
 	
-	public Card getPack() {
+	public Card getCard() {
 		if (card == null) card = Card.of(cardId);
 		return card;
 	}

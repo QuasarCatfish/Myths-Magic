@@ -17,14 +17,14 @@ public class PlayerStarterDeck {
 	}
 	
 	public static PlayerStarterDeck[] of(long playerId) {
-		ArrayList<PlayerStarterDeck> packs = new ArrayList<>();
+		ArrayList<PlayerStarterDeck> decks = new ArrayList<>();
 		try (ResultSet res = DB.query("select * from `playerstarterdecks` where `playerId` = ? and `quantity` > 0;", playerId)) {
-			while (res.next()) packs.add(new PlayerStarterDeck(res));
+			while (res.next()) decks.add(new PlayerStarterDeck(res));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return packs.toArray(new PlayerStarterDeck[0]);
+		return decks.toArray(new PlayerStarterDeck[0]);
 	}
 	
 	//////////////////////////////////////////////
