@@ -5,6 +5,7 @@ import com.quas.mythsmagic.commands.CommandInfo;
 import com.quas.mythsmagic.database.Player;
 import com.quas.mythsmagic.database.ShopItem;
 import com.quas.mythsmagic.util.Constants;
+import com.quas.mythsmagic.util.Util;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
@@ -20,12 +21,10 @@ public class ShopCommand extends Command {
 		eb.setColor(Constants.COLOR);
 		
 		eb.setTitle("Myths & Magic - Card Shop");
-		eb.setDescription(String.format("You have %,d Jewels and %,d Starter Bundle Tickets.", player.getMoney(), player.getStarterBundleTickets()));
+		eb.setDescription(String.format("You have %s and %s.", Util.quantity(player.getMoney(), "Jewel", "s"), Util.quantity(player.getStarterBundleTickets(), "Starter Bundle Ticket", "s")));
 		
-		for (ShopItem shop : ShopItem.getActive()) {
-			eb.addField(shop.getShopName(), shop.getShopDescription(), true);
-		}
+		for (ShopItem shop : ShopItem.getActive()) eb.addField(shop.getShopName(), shop.getShopDescription(), true);
 		
-		event.replyFormat("%s, it's not time for your bonus yet. Come back in %s.", event.getUser().getAsMention()).setEphemeral(isEphemeral(event)).queue();
+		event.reply(event.getUser().getAsMention()).addEmbeds(eb.build()).setEphemeral(isEphemeral(event)).queue();
 	}
 }

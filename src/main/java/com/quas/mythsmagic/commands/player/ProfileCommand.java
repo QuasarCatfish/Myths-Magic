@@ -8,6 +8,7 @@ import com.quas.mythsmagic.database.Player;
 import com.quas.mythsmagic.database.PlayerPack;
 import com.quas.mythsmagic.database.PlayerStarterDeck;
 import com.quas.mythsmagic.util.Constants;
+import com.quas.mythsmagic.util.Util;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
@@ -26,8 +27,8 @@ public class ProfileCommand extends Command {
 		eb.setThumbnail(event.getUser().getEffectiveAvatarUrl());
 		
 		StringJoiner sjDesc = new StringJoiner("\n");
-		sjDesc.add(String.format("**Balance:** %,d Jewels", player.getMoney()));
-		if (player.getStarterBundleTickets() > 0) sjDesc.add(String.format("**Starter Bundle Tickets:** %,d Ticket%s", player.getStarterBundleTickets(), player.getStarterBundleTickets() > 1 ? "s" : ""));
+		sjDesc.add("**Balance:** " + Util.quantity(player.getMoney(), "Jewel", "s"));
+		if (player.getStarterBundleTickets() > 0) sjDesc.add("**Starter Bundle Tickets:** " + Util.quantity(player.getStarterBundleTickets(), "Ticket", "s"));
 		eb.setDescription(sjDesc.toString());
 		
 		StringJoiner sjPacks = new StringJoiner("\n");
