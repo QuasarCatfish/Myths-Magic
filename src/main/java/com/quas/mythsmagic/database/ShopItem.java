@@ -32,6 +32,7 @@ public class ShopItem {
 	
 	private int shopId;
 	private String shopName;
+	private ShopPrice price;
 	private int starterDeckId;
 	private StarterDeck starterDeck;
 	private int packId1;
@@ -49,6 +50,7 @@ public class ShopItem {
 	private ShopItem(ResultSet res) throws SQLException {
 		shopId = res.getInt("shop.shopId");
 		shopName = res.getString("shop.shopName");
+		price = ShopPrice.valueOf(res.getString("shop.price"));
 		starterDeckId = res.getInt("shop.starterDeckId");
 		packId1 = res.getInt("shop.packId1");
 		packQuantity1 = res.getInt("shop.packQuantity1");
@@ -81,8 +83,15 @@ public class ShopItem {
 		return shopName;
 	}
 	
+	public ShopPrice getPrice() {
+		return price;
+	}
+	
 	public String getShopDescription() {
 		StringJoiner sj = new StringJoiner("\n");
+		sj.add("**Price:** " + price);
+		
+		sj.add("**Contents:**");
 		if (hasStarterDeck()) sj.add(String.format("-- 1x %s", getStarterDeck().getName()));
 		
 		if (hasPacks()) {
