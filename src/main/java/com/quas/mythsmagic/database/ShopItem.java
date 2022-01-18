@@ -28,10 +28,22 @@ public class ShopItem {
 		return shopItems.toArray(new ShopItem[0]);
 	}
 	
+	public static ShopItem[] getActive(ShopType type) {
+		ArrayList<ShopItem> shopItems = new ArrayList<>();
+		try (ResultSet res = DB.query("select * from `shop` where `active` and `category` = ?;", type.name())) {
+			while (res.next()) shopItems.add(new ShopItem(res));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return shopItems.toArray(new ShopItem[0]);
+	}
+	
 	//////////////////////////////////////////////
 	
 	private int shopId;
 	private String shopName;
+	private ShopType category;
 	private ShopPrice price;
 	private int starterDeckId;
 	private StarterDeck starterDeck;
@@ -50,6 +62,7 @@ public class ShopItem {
 	private ShopItem(ResultSet res) throws SQLException {
 		shopId = res.getInt("shop.shopId");
 		shopName = res.getString("shop.shopName");
+		category = ShopType.valueOf(res.getString("shop.category"));
 		price = ShopPrice.valueOf(res.getString("shop.price"));
 		starterDeckId = res.getInt("shop.starterDeckId");
 		packId1 = res.getInt("shop.packId1");
@@ -81,6 +94,10 @@ public class ShopItem {
 	
 	public String getShopName() {
 		return shopName;
+	}
+	
+	public ShopType getType() {
+		return category;
 	}
 	
 	public ShopPrice getPrice() {

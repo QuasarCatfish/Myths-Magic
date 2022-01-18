@@ -10,6 +10,7 @@ import com.quas.mythsmagic.util.Util;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 @CommandInfo(name = "buy", desc = "Buys the specified pack, deck, or bundles, if able")
 public class BuyCommand extends Command {
@@ -19,10 +20,9 @@ public class BuyCommand extends Command {
 
 	@Override
 	public CommandData data() {
-		CommandData cd = super.data();
-		cd.addOption(OptionType.STRING, ITEM, "The pack, deck, or bundle you wish to buy", true);
-		cd.addOption(OptionType.INTEGER, QUANTITY, "The number you want to buy (default 1)");
-		return cd;
+		OptionData item = new OptionData(OptionType.STRING, ITEM, "The pack, deck, or bundle you wish to buy", true);
+		OptionData quantity = new OptionData(OptionType.INTEGER, QUANTITY, "The number you want to buy (default 1)");
+		return super.data().addOptions(item, quantity);
 	}
 	
 	@Override
