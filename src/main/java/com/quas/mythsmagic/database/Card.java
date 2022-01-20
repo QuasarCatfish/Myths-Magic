@@ -19,10 +19,16 @@ public class Card {
 	
 	private int cardId;
 	private String name;
+	private String flavorText;
+	private CardType cardType;
+	private CardRarity rarity;
 	
 	private Card(ResultSet res) throws SQLException {
 		cardId = res.getInt("cards.cardId");
 		name = res.getString("cards.cardName");
+		flavorText = res.getString("cards.flavorText");
+		cardType = CardType.valueOf(res.getString("cards.cardType"));
+		rarity = CardRarity.valueOf(res.getString("cards.rarity"));
 	}
 	
 	public int getCardId() {
@@ -31,5 +37,17 @@ public class Card {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public String getFlavorText() {
+		return flavorText;
+	}
+	
+	public CardType getCardType() {
+		return cardType;
+	}
+	
+	public CardRarity getCardRarity() {
+		return rarity;
 	}
 }
