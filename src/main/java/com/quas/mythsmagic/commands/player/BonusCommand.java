@@ -18,7 +18,6 @@ public class BonusCommand extends Command {
 	@Override
 	public void handle(SlashCommandEvent event) {
 		Player player = Player.of(event.getUser());
-		event.deferReply().setEphemeral(isEphemeral(event)).queue();
 		
 		if (player.getLastBonus() + Constants.BONUS_WAIT_TIME <= System.currentTimeMillis()) {
 			int bonus = Rand.nextElement(Constants.BONUS_AMOUNTS);
