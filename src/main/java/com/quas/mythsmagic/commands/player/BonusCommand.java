@@ -18,10 +18,11 @@ public class BonusCommand extends Command {
 	@Override
 	public void handle(SlashCommandEvent event) {
 		Player player = Player.of(event.getUser());
+		event.deferReply().setEphemeral(isEphemeral(event)).queue();
 		
 		if (player.getLastBonus() + Constants.BONUS_WAIT_TIME <= System.currentTimeMillis()) {
 			int bonus = Rand.nextElement(Constants.BONUS_AMOUNTS);
-			event.replyFormat("%s, you earned %,d Jewels from your bonus!", event.getUser().getAsMention(), bonus).setEphemeral(isEphemeral(event)).queue();
+			event.getHook().editOriginalFormat("%s, you earned %,d Jewels from your bonus!", event.getUser().getAsMention(), bonus).queue();
 			DB.update("update `players` set `money` = `money` + ?, `lastBonus` = ? where `playerId` = ?;", bonus, System.currentTimeMillis(), player.getPlayerId());
 		} else {
 			long time = player.getLastBonus() + Constants.BONUS_WAIT_TIME - System.currentTimeMillis();
@@ -35,7 +36,7 @@ public class BonusCommand extends Command {
 			int minutes = (int)(time / TimeUnit.MINUTES.toMillis(1));
 			if (minutes > 0) sj.add(String.format("%,d minute%s", minutes, minutes > 1 ? "s" : ""));
 			
-			event.replyFormat("%s, it's not time for your bonus yet. Come back in %s.", event.getUser().getAsMention(), sj.toString()).setEphemeral(isEphemeral(event)).queue();
+			event.getHook().editOriginalFormat("%s, it's not time for your bonus yet. Come back in %s.", event.getUser().getAsMention(), sj.toString()).queue();
 		}
 	}
 }

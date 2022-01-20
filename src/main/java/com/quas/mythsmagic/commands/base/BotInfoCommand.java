@@ -30,6 +30,6 @@ public class BotInfoCommand extends Command {
 		for (String link : MythsMagicBot.getProperties().getBotInfo().getLinks()) sj.add(link);
 		eb.addField("Links", sj.toString(), false);
 		
-		event.reply(event.getUser().getAsMention()).addEmbeds(eb.build()).setEphemeral(isEphemeral(event)).queue();
+		event.getHook().editOriginal(event.getUser().getAsMention()).setEmbeds(eb.build()).queue();
 	}
 }

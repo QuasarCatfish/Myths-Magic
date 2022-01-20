@@ -34,6 +34,8 @@ public class Command extends ListenerAdapter {
 		CommandInfo ci = this.getClass().getAnnotation(CommandInfo.class);
 		if (!event.getName().equals(ci.name())) return;
 		
+		event.deferReply(isEphemeral(event)).queue();
+		
 		if (subcommands.isEmpty()) {
 			handle(event);
 		} else {
@@ -56,6 +58,8 @@ public class Command extends ListenerAdapter {
 		CommandInfo ci = this.getClass().getAnnotation(CommandInfo.class);
 		String[] components = event.getComponentId().split(":");
 		if (!components[0].equals(ci.name())) return;
+		
+		event.deferReply(isEphemeral(event)).queue();
 		
 		if (subcommands.isEmpty()) {
 			if (components[1].equals(ANY_PLAYER) || components[1].equals(event.getUser().getId())) {
@@ -87,6 +91,8 @@ public class Command extends ListenerAdapter {
 		CommandInfo ci = this.getClass().getAnnotation(CommandInfo.class);
 		String[] components = event.getComponentId().split(":");
 		if (!components[0].equals(ci.name())) return;
+		
+		event.deferReply(isEphemeral(event)).queue();
 		
 		if (subcommands.isEmpty()) {
 			if (components[1].equals(ANY_PLAYER) || components[1].equals(event.getUser().getId())) {
@@ -134,8 +140,7 @@ public class Command extends ListenerAdapter {
 	}
 	
 	protected final void reply(GenericInteractionCreateEvent event, String format, Object...args) {
-		if (event.isAcknowledged()) event.getHook().editOriginalFormat(format, args).queue();
-		else event.replyFormat(format, args).setEphemeral(true).queue();
+		event.getHook().editOriginalFormat(format, args).queue();
 	}
 	
 	protected final boolean isEphemeral(GenericInteractionCreateEvent event) {

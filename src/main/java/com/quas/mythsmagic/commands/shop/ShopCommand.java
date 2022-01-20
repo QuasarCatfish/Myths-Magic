@@ -43,6 +43,6 @@ public class ShopCommand extends Command {
 		
 		for (ShopItem shop : ShopItem.getActive(shopType)) eb.addField(shop.getShopName(), shop.getShopDescription(), true);
 		
-		event.reply(event.getUser().getAsMention()).addEmbeds(eb.build()).setEphemeral(isEphemeral(event)).queue();
+		event.getHook().editOriginal(event.getUser().getAsMention()).setEmbeds(eb.build()).queue();
 	}
 }

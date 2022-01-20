@@ -31,7 +31,7 @@ public class BuyCommand extends Command {
 		
 		long quantity = event.getOption(QUANTITY) == null ? 1 : event.getOption(QUANTITY).getAsLong();
 		if (quantity <= 0) {
-			event.replyFormat("%s, you cannot purchase %,d of an item.", event.getUser().getAsMention(), quantity).setEphemeral(isEphemeral(event)).queue();
+			event.getHook().editOriginalFormat("%s, you cannot purchase %,d of an item.", event.getUser().getAsMention(), quantity).queue();
 			return;
 		}
 		
@@ -61,7 +61,7 @@ public class BuyCommand extends Command {
 		
 		// Not able to buy
 		else {
-			event.replyFormat("%s, you cannot afford to buy the %s.", event.getUser().getAsMention(), best.getShopName()).setEphemeral(isEphemeral(event)).queue();
+			event.getHook().editOriginalFormat("%s, you cannot afford to buy the %s.", event.getUser().getAsMention(), best.getShopName()).queue();
 			return;
 		}
 		
@@ -73,6 +73,6 @@ public class BuyCommand extends Command {
 			}
 		}
 		
-		event.replyFormat("%s, you bought the %s for %s.", event.getUser().getAsMention(), best.getShopName(), best.getPrice()).setEphemeral(isEphemeral(event)).queue();
+		event.getHook().editOriginalFormat("%s, you bought %,dx %s for %s.", event.getUser().getAsMention(), quantity, best.getShopName(), best.getPrice()).queue();
 	}
 }

@@ -41,6 +41,6 @@ public class ProfileCommand extends Command {
 		for (PlayerStarterDeck deck : PlayerStarterDeck.of(player.getPlayerId())) sjStarterDecks.add(String.format("%,dx %s", deck.getQuantity(), deck.getStarterDeck().getName()));
 		eb.addField("Starter Decks", sjStarterDecks.toString(), true);
 		
-		event.reply(event.getUser().getAsMention()).addEmbeds(eb.build()).setEphemeral(isEphemeral(event)).queue();
+		event.getHook().editOriginal(event.getUser().getAsMention()).setEmbeds(eb.build()).queue();
 	}
 }
