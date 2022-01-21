@@ -26,6 +26,11 @@ public class ProfileCommand extends Command {
 		eb.setTitle(player.getName() + "'s Profile");
 		eb.setThumbnail(event.getUser().getEffectiveAvatarUrl());
 		
+		if (player.isPremium()) {
+			if (player.getPremium() == Long.MAX_VALUE) eb.setFooter("Your premium does not expire");
+			else eb.setFooter("Your premium expires " + Util.formatTimeRelative(player.getPremium()));
+		}
+		
 		StringJoiner sjDesc = new StringJoiner("\n");
 		sjDesc.add("**Balance:** " + Util.quantity(player.getMoney(), "Jewel", "s"));
 		if (player.getStarterBundleTickets() > 0) sjDesc.add("**Starter Bundle Tickets:** " + Util.quantity(player.getStarterBundleTickets(), "Ticket", "s"));

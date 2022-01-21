@@ -40,6 +40,7 @@ public class Player {
 	private long playerId;
 	private String name;
 	private long lastBonus;
+	private long premium;
 	private long money;
 	private int starterBundleTickets;
 	
@@ -47,6 +48,7 @@ public class Player {
 		playerId = res.getLong("players.playerId");
 		name = res.getString("players.playerName");
 		lastBonus = res.getLong("players.lastBonus");
+		premium = res.getLong("players.premium");
 		money = res.getLong("players.money");
 		starterBundleTickets = res.getInt("players.starterBundleTickets");
 	}
@@ -57,6 +59,14 @@ public class Player {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public boolean isPremium() {
+		return premium >= System.currentTimeMillis();
+	}
+	
+	public long getPremium() {
+		return premium;
 	}
 	
 	public long getLastBonus() {
