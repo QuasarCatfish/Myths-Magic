@@ -1,5 +1,8 @@
 package com.quas.mythsmagic.util;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class Util {
@@ -39,5 +42,37 @@ public class Util {
 		int min = arr[0];
 		for (int x : arr) if (x < min) min = x;
 		return min;
+	}
+	
+	@SafeVarargs
+	public static <T> T[] reverse(T...arr) {
+		for (int q = 0; q < arr.length / 2; q++) {
+			T t = arr[q];
+			arr[q] = arr[arr.length - q - 1];
+			arr[arr.length - q - 1] = t;
+		}
+		
+		return arr;
+	}
+	
+	public static String formatTimeRelative(long time) {
+		Duration delta = Duration.ofMillis(time - System.currentTimeMillis());
+		if (delta.isZero() || delta.isNegative()) return "0 minutes";
+		
+		ChronoUnit[] times = reverse(ChronoUnit.values());
+		for (ChronoUnit cu : times) {
+			if (cu.compareTo(ChronoUnit.MINUTES) < 0) break;
+			if (cu.compareTo(ChronoUnit.YEARS) > 0) continue;
+			if (cu == ChronoUnit.HALF_DAYS) continue;
+			
+			long div = delta.dividedBy(cu.getDuration());
+			if (div > 0) {
+				String name = cu.toString().toLowerCase();
+				name = name.substring(0, name.length() - 1);
+				return quantity(div, name, "s");
+			}
+		}
+		
+		return "1 minute";
 	}
 }

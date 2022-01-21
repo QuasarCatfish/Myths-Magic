@@ -21,6 +21,8 @@ public class BonusCommand extends Command {
 		
 		if (player.getLastBonus() + Constants.BONUS_WAIT_TIME <= System.currentTimeMillis()) {
 			int bonus = Rand.nextElement(Constants.BONUS_AMOUNTS);
+			if (player.isPremium()) bonus = Math.max(bonus, Rand.nextElement(Constants.BONUS_AMOUNTS));
+			
 			event.getHook().editOriginalFormat("%s, you earned %,d Jewels from your bonus!", event.getUser().getAsMention(), bonus).queue();
 			DB.update("update `players` set `money` = `money` + ?, `lastBonus` = ? where `playerId` = ?;", bonus, System.currentTimeMillis(), player.getPlayerId());
 		} else {
