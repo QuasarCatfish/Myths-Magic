@@ -5,5 +5,6 @@ public enum CardType {
 	Divine,
 	Creature,
 	Artifact,
-	Domain;
+	Domain,
+	Token;
 }
