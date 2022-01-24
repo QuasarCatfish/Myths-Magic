@@ -3,10 +3,11 @@ package com.quas.mythsmagic.database;
 public enum CardRarity {
 
 	Unobtainable("Unobtainable"),
-	Common("Common"),
-	Uncommon("Uncommon"),
-	Rare("Rare"),
 	DivineRare("Divine Rare"),
+	EpicRare("Epic Rare"),
+	Rare("Rare"),
+	Uncommon("Uncommon"),
+	Common("Common"),
 	;
 	
 	private String name;
