@@ -19,18 +19,25 @@ public class MythsMagicBot {
 	
 	public static void main(String[] args) {
 		
-		try (FileReader in = new FileReader(Constants.FILE_PROPERTIES)) {
-			
-			// Read in properties
-			properties = new Gson().fromJson(in, BotProperties.class);
-			
+		initializeProperties();
+		
+		try {
 			// Create bot
 			JDA bot = JDABuilder.createDefault(properties.getToken()).build();
 			bot.awaitReady();
 			
 			// Load commands
 			CommandManager.load(bot, false);
-			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
+	}
+	
+	// Read in properties file
+	public static void initializeProperties() {
+		try (FileReader in = new FileReader(Constants.FILE_PROPERTIES)) {
+			properties = new Gson().fromJson(in, BotProperties.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 			new BotProperties().save();
