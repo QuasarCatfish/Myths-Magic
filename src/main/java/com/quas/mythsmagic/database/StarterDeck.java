@@ -2,6 +2,7 @@ package com.quas.mythsmagic.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class StarterDeck {
 
@@ -13,6 +14,18 @@ public class StarterDeck {
 		}
 		
 		return null;
+	}
+	
+	public static StarterDeck[] values() {
+		ArrayList<StarterDeck> decks = new ArrayList<>();
+		
+		try (ResultSet res = DB.query("select * from `starterdecks`;")) {
+			while (res.next()) decks.add(new StarterDeck(res));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return decks.toArray(new StarterDeck[0]);
 	}
 	
 	//////////////////////////////////////////////

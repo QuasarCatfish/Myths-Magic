@@ -2,6 +2,7 @@ package com.quas.mythsmagic.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Card {
 
@@ -13,6 +14,18 @@ public class Card {
 		}
 		
 		return null;
+	}
+	
+	public static Card[] values() {
+		ArrayList<Card> cards = new ArrayList<>();
+		
+		try (ResultSet res = DB.query("select * from `cards`;")) {
+			while (res.next()) cards.add(new Card(res));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return cards.toArray(new Card[0]);
 	}
 	
 	//////////////////////////////////////////////
