@@ -8,21 +8,8 @@ import net.dv8tion.jda.api.entities.User;
 public class Player {
 
 	public static Player of(User user) {
-		Player p = of(user.getIdLong());
-		
-		// If player does not exist
-		if (p == null) {
-			DB.update("insert into `players`(`playerId`, `playerName`) values(?, ?);", user.getIdLong(), user.getName());
-			p = of(user.getIdLong());
-		}
-		
-		// If player has updated their name
-		if (!user.getName().equals(p.getName())) {
-			p.name = user.getName();
-			DB.update("update `players` set `playerName` = ? where `playerId` = ?;", user.getName(), p.getPlayerId());
-		}
-		
-		return p;
+		DB.update("insert into `players`(`playerId`, `playerName`) values(?, ?) on duplicate key update `playerName` = ?;", user.getIdLong(), user.getName(), user.getName());
+		return of(user.getIdLong());
 	}
 	
 	public static Player of(long playerId) {
