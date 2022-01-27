@@ -9,6 +9,7 @@ import com.quas.mythsmagic.database.DB;
 import com.quas.mythsmagic.database.Player;
 import com.quas.mythsmagic.util.Constants;
 import com.quas.mythsmagic.util.Rand;
+import com.quas.mythsmagic.util.Util;
 
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 
@@ -32,10 +33,10 @@ public class BonusCommand extends Command {
 			
 			int hours = (int)(time / TimeUnit.HOURS.toMillis(1));
 			time %= TimeUnit.HOURS.toMillis(1);
-			if (hours > 0) sj.add(String.format("%,d hour%s", hours, hours > 1 ? "s" : ""));
-			
 			int minutes = (int)(time / TimeUnit.MINUTES.toMillis(1));
-			if (minutes > 0) sj.add(String.format("%,d minute%s", minutes, minutes > 1 ? "s" : ""));
+			
+			if (hours > 0) sj.add(Util.quantity(hours, "hour", "s"));
+			if (minutes > 0) sj.add(Util.quantity(minutes, "minute", "s"));
 			
 			event.getHook().editOriginalFormat("%s, it's not time for your bonus yet. Come back in %s.", event.getUser().getAsMention(), sj.toString()).queue();
 		}
