@@ -12,4 +12,5 @@ public @interface CommandInfo {
 	public Class<?> parent() default void.class;
 	public String name();
 	public String desc();
+	public boolean requiresPermissionView() default false;
 }

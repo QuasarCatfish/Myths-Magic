@@ -30,6 +30,11 @@ public class Player {
 	private long premium;
 	private long money;
 	private int starterBundleTickets;
+	private int gamesWon;
+	private int gamesTied;
+	private int gamesLost;
+	private int gamesPlayed;
+	private double rating;
 	
 	private Player(ResultSet res) throws SQLException {
 		playerId = res.getLong("players.playerId");
@@ -38,6 +43,12 @@ public class Player {
 		premium = res.getLong("players.premium");
 		money = res.getLong("players.money");
 		starterBundleTickets = res.getInt("players.starterBundleTickets");
+		
+		gamesWon = res.getInt("players.gamesWon");
+		gamesTied = res.getInt("players.gamesTied");
+		gamesLost = res.getInt("players.gamesLost");
+		gamesPlayed = gamesWon + gamesTied + gamesLost;
+		rating = res.getDouble("players.rating");
 	}
 	
 	public long getPlayerId() {
@@ -66,5 +77,29 @@ public class Player {
 	
 	public int getStarterBundleTickets() {
 		return starterBundleTickets;
+	}
+	
+	public int getGamesWon() {
+		return gamesWon;
+	}
+	
+	public int getGamesTied() {
+		return gamesTied;
+	}
+	
+	public int getGamesLost() {
+		return gamesLost;
+	}
+	
+	public int getGamesPlayed() {
+		return gamesPlayed;
+	}
+	
+	public double getRating() {
+		return rating;
+	}
+	
+	public boolean hasValidDeck() {
+		return true;
 	}
 }

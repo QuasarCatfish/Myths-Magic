@@ -1,6 +1,7 @@
 package com.quas.mythsmagic.util;
 
 import java.time.Duration;
+import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 
 import org.apache.commons.lang3.StringUtils;
@@ -55,6 +56,11 @@ public class Util {
 		return arr;
 	}
 	
+	@SafeVarargs
+	public static <T> T[] arr(T...arr) {
+		return arr;
+	}
+	
 	public static String formatTimeRelative(long time) {
 		Duration delta = Duration.ofMillis(time - System.currentTimeMillis());
 		if (delta.isZero() || delta.isNegative()) return "0 minutes";
@@ -74,5 +80,9 @@ public class Util {
 		}
 		
 		return "1 minute";
+	}
+	
+	public static long getMillis(OffsetDateTime odt) {
+		return 1_000 * odt.toEpochSecond() + odt.getNano() / 1_000_000;
 	}
 }
