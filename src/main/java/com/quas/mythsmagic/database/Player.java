@@ -28,6 +28,7 @@ public class Player {
 	private String name;
 	private long lastBonus;
 	private long premium;
+	private long joinTime;
 	private long money;
 	private int starterBundleTickets;
 	private int gamesWon;
@@ -41,6 +42,7 @@ public class Player {
 		name = res.getString("players.playerName");
 		lastBonus = res.getLong("players.lastBonus");
 		premium = res.getLong("players.premium");
+		joinTime = res.getTimestamp("joinTime").getTime();
 		money = res.getLong("players.money");
 		starterBundleTickets = res.getInt("players.starterBundleTickets");
 		
@@ -69,6 +71,10 @@ public class Player {
 	
 	public long getLastBonus() {
 		return lastBonus;
+	}
+	
+	public long getJoinTime() {
+		return joinTime;
 	}
 	
 	public long getMoney() {
