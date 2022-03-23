@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import com.quas.mythsmagic.commands.CommandInfo.DeferType;
+
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.events.interaction.GenericInteractionCreateEvent;
 import net.dv8tion.jda.api.events.interaction.SelectionMenuEvent;
@@ -38,7 +40,8 @@ public class Command extends ListenerAdapter {
 			if (ci.requiresPermissionView() && !event.getTextChannel().canTalk()) {
 				noPermission(event);
 			} else {
-				event.deferReply(isEphemeral(event)).queue(hook -> handle(event));
+				if (ci.deferSlash() == DeferType.Reply) event.deferReply(isEphemeral(event)).queue(hook -> handle(event));
+				else handle(event);
 			}
 		} else {
 			for (Subcommand sc : subcommands) {
@@ -48,7 +51,8 @@ public class Command extends ListenerAdapter {
 				if (sci.requiresPermissionView() && !event.getTextChannel().canTalk()) {
 					noPermission(event);
 				} else {
-					event.deferReply(isEphemeral(event)).queue(hook -> sc.handle(event));
+					if (sci.deferSlash() == DeferType.Reply) event.deferReply(isEphemeral(event)).queue(hook -> sc.handle(event));
+					else sc.handle(event);
 				}
 			}
 		}
@@ -68,7 +72,9 @@ public class Command extends ListenerAdapter {
 		
 		if (subcommands.isEmpty()) {
 			if (components[1].equals(ANY_PLAYER) || components[1].equals(event.getUser().getId())) {
-				event.deferReply(isEphemeral(event)).queue(hook -> handle(event));
+				if (ci.deferButton() == DeferType.Reply) event.deferReply(isEphemeral(event)).queue(hook -> handle(event));
+				else if (ci.deferButton() == DeferType.Edit) event.deferEdit().queue(hook -> handle(event));
+				else handle(event);
 			} else {
 				noPermission(event);
 			}
@@ -77,7 +83,10 @@ public class Command extends ListenerAdapter {
 				for (Subcommand sc : subcommands) {
 					CommandInfo sci = sc.getClass().getAnnotation(CommandInfo.class);
 					if (!components[1].equals(sci.name())) continue;
-					event.deferReply(isEphemeral(event)).queue(hook -> sc.handle(event));
+					
+					if (sci.deferButton() == DeferType.Reply) event.deferReply(isEphemeral(event)).queue(hook -> sc.handle(event));
+					else if (sci.deferButton() == DeferType.Edit) event.deferEdit().queue(hook -> sc.handle(event));
+					else sc.handle(event);
 				}
 			} else {
 				noPermission(event);
@@ -99,7 +108,9 @@ public class Command extends ListenerAdapter {
 		
 		if (subcommands.isEmpty()) {
 			if (components[1].equals(ANY_PLAYER) || components[1].equals(event.getUser().getId())) {
-				event.deferReply(isEphemeral(event)).queue(hook -> handle(event));
+				if (ci.deferSelect() == DeferType.Reply) event.deferReply(isEphemeral(event)).queue(hook -> handle(event));
+				else if (ci.deferSelect() == DeferType.Edit) event.deferEdit().queue(hook -> handle(event));
+				else handle(event);
 			} else {
 				noPermission(event);
 			}
@@ -108,7 +119,10 @@ public class Command extends ListenerAdapter {
 				for (Subcommand sc : subcommands) {
 					CommandInfo sci = sc.getClass().getAnnotation(CommandInfo.class);
 					if (!components[1].equals(sci.name())) continue;
-					event.deferReply(isEphemeral(event)).queue(hook -> sc.handle(event));
+					
+					if (sci.deferSelect() == DeferType.Reply) event.deferReply(isEphemeral(event)).queue(hook -> sc.handle(event));
+					else if (sci.deferSelect() == DeferType.Edit) event.deferEdit().queue(hook -> sc.handle(event));
+					else sc.handle(event);
 				}
 			} else {
 				noPermission(event);
