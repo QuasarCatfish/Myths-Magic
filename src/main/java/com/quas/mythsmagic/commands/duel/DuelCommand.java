@@ -82,8 +82,6 @@ public class DuelCommand extends Command {
 			
 			// Player rejects the duel challenge
 			case DUEL_REJECT -> {
-				event.getMessage().editMessageComponents().queue();
-				
 				// Duel invite expires after 5 minutes
 				if (Util.getMillis(event.getTimeCreated()) - Util.getMillis(event.getMessage().getTimeCreated()) > Constants.DUEL_COMMAND_TIMEOUT_TIME) {
 					event.getHook().editOriginalFormat("The duel invitation has expired.", event.getUser().getAsMention()).setActionRows().queue();
